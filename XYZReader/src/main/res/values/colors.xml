@@ -18,8 +18,11 @@
 <resources>
     <color name="photo_placeholder">#ccc</color>
 
+    <!-- Used this tool to get a color scheme
+      https://material.io/tools/color/#!/?view.left=0&view.right=0 -->
     <color name="theme_primary">#04561A</color>
-    <color name="theme_primary_dark">#04561A</color>
-    <color name="theme_accent">#04561A</color>
-    <color name="ltgray">#ffe0e0e0</color>
+    <color name="theme_primary_dark">#002c00</color>
+    <color name="theme_accent">#c9212b</color>
+    <color name="midgray">#9E9E9E</color>
+    <color name="darkgray">#455A64</color>
 </resources>

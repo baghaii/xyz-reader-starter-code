@@ -15,7 +15,7 @@ public class Config {
             url = new URL("https://go.udacity.com/xyz-reader-json" );
         } catch (MalformedURLException ignored) {
             // TODO: throw a real error
-            Log.e(TAG, "Please check your internet connection.");
+            Log.e(TAG, "Please check your internet connection. " + ignored.getMessage());
         }
 
         BASE_URL = url;

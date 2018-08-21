@@ -17,12 +17,37 @@
 
 <resources>
 
-    <style name="Theme.Bacon" parent="@style/Theme.AppCompat.Light.NoActionBar">
+    <!-- There was a problem with the coordinator layout theme
+    https://stackoverflow.com/questions/49292487/failed-to-find-style-coordinatorlayoutstyle-in-current-theme -->
 
+    <style name="Theme.Bacon" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="coordinatorLayoutStyle">@style/Widget.Support.CoordinatorLayout</item>
+        <item name="android:colorPrimary">@color/theme_primary</item>
+        <item name="android:colorPrimaryDark">@color/theme_primary_dark</item>
+        <item name="android:colorAccent">@color/theme_accent</item>
+
+        <!--https://guides.codepath.com/android/Shared-Element-Activity-Transition-->
+        <item name="android:windowContentTransitions">true</item>
     </style>
 
     <style name="Theme.Bacon.Detail">
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="TextAppearance.AppCompat.Subhead">
+        <item name="android:paddingLeft">@dimen/subhead_padding</item>
+        <item name="android:paddingTop">@dimen/subhead_padding</item>
+        <item name="android:paddingRight">@dimen/subhead_padding</item>
+        <item name="android:paddingBottom">@dimen/subhead_padding_bottom</item>
+        <item name="android:textColor">@color/theme_accent</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="TextAppearance.AppCompat.Body1">
+        <item name="android:paddingLeft">@dimen/body_padding</item>
+        <item name="android:paddingRight">@dimen/body_padding</item>
+        <item name="android:paddingBottom">@dimen/body_padding</item>
+        <item name="android:textColor">@color/darkgray</item>
+    </style>
 </resources>
+
