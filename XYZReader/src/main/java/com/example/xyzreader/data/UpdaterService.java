@@ -66,7 +66,15 @@ public class UpdaterService extends IntentService {
                 values.put(ItemsContract.Items.SERVER_ID, object.getString("id" ));
                 values.put(ItemsContract.Items.AUTHOR, object.getString("author" ));
                 values.put(ItemsContract.Items.TITLE, object.getString("title" ));
-                values.put(ItemsContract.Items.BODY, object.getString("body" ));
+
+                // Get rid of strange formatting with strange regex.
+                // If you have a lonely \r\n, replace it with a space.
+                // (([^\r\n])  not \r\n
+                // \r\n        followed by \r\n
+                // (?=[^\r\n]) lookahead for not \r\n
+
+                values.put(ItemsContract.Items.BODY, object.getString("body" )
+                    .replaceAll("([^\r\n])\r\n(?=[^\r\n])", "$1 "));
                 values.put(ItemsContract.Items.THUMB_URL, object.getString("thumb" ));
                 values.put(ItemsContract.Items.PHOTO_URL, object.getString("photo" ));
                 values.put(ItemsContract.Items.ASPECT_RATIO, object.getString("aspect_ratio" ));

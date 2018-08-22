@@ -28,6 +28,7 @@
 
         <!--https://guides.codepath.com/android/Shared-Element-Activity-Transition-->
         <item name="android:windowContentTransitions">true</item>
+
     </style>
 
     <style name="Theme.Bacon.Detail">
