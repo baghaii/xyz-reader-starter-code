@@ -10,8 +10,11 @@
 
     <dimen name="subhead_padding">16dp</dimen>
     <dimen name="subhead_padding_bottom">4dp</dimen>
+    <dimen name="subhead_text_size">18sp</dimen>
 
     <dimen name="body_padding">16dp</dimen>
+
+    <dimen name="action_bar_height">84dp</dimen>
 
 
 </resources>

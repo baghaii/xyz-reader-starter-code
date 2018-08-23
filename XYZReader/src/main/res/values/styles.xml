@@ -29,6 +29,7 @@
         <!--https://guides.codepath.com/android/Shared-Element-Activity-Transition-->
         <item name="android:windowContentTransitions">true</item>
 
+
     </style>
 
     <style name="Theme.Bacon.Detail">
@@ -41,6 +42,7 @@
         <item name="android:paddingRight">@dimen/subhead_padding</item>
         <item name="android:paddingBottom">@dimen/subhead_padding_bottom</item>
         <item name="android:textColor">@color/theme_accent</item>
+        <item name="android:textSize">@dimen/subhead_text_size</item>
         <item name="android:textStyle">bold</item>
     </style>
 
