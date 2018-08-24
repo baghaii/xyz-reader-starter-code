@@ -4,9 +4,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.app.ShareCompat;
@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,7 +51,6 @@ public class ArticleDetailFragment extends Fragment implements
   private View mRootView;
   private Toolbar mToolbar;
   private int mMutedColor = 0xFF333333;
-  private ObservableScrollView mScrollView;
   private ColorDrawable mStatusBarColorDrawable;
 
   private int mTopInset;
@@ -114,12 +114,11 @@ public class ArticleDetailFragment extends Fragment implements
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
 
-
     mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
+    mRootView.setVisibility(View.INVISIBLE);
     mToolbar = mRootView.findViewById(R.id.toolbar);
 
-
-    mPhotoView = (ImageView) mRootView.findViewById(R.id.photo);
+    mPhotoView = mRootView.findViewById(R.id.photo);
 
     mStatusBarColorDrawable = new ColorDrawable(0);
 
@@ -188,16 +187,13 @@ public class ArticleDetailFragment extends Fragment implements
     TextView bylineView = (TextView) mRootView.findViewById(R.id.article_byline);
     bylineView.setMovementMethod(new LinkMovementMethod());
     TextView bodyView = (TextView) mRootView.findViewById(R.id.article_body);
-
-
-    bodyView.setTypeface(Typeface.createFromAsset(getResources().getAssets(), "Rosario-Regular.ttf"));
+    bodyView.setMovementMethod(new ScrollingMovementMethod());
 
     if (mCursor != null) {
-      mRootView.setAlpha(0);
       mRootView.setVisibility(View.VISIBLE);
-      mRootView.animate().alpha(1);
       titleView.setText(mCursor.getString(ArticleLoader.Query.TITLE));
       mToolbar.setTitle(mCursor.getString(ArticleLoader.Query.TITLE));
+      //TODO set a subtitle here
       Date publishedDate = parsePublishedDate();
       if (!publishedDate.before(START_OF_EPOCH.getTime())) {
         bylineView.setText(Html.fromHtml(
@@ -248,6 +244,7 @@ public class ArticleDetailFragment extends Fragment implements
   }
 
   @Override
+  @NonNull
   public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
     return ArticleLoader.newInstanceForItemId(getActivity(), mItemId);
   }
@@ -269,23 +266,13 @@ public class ArticleDetailFragment extends Fragment implements
     }
 
     bindViews();
+
   }
 
   @Override
   public void onLoaderReset(Loader<Cursor> cursorLoader) {
     mCursor = null;
     bindViews();
-  }
-
-  public int getUpButtonFloor() {
-    if (mPhotoContainerView == null || mPhotoView.getHeight() == 0) {
-      return Integer.MAX_VALUE;
-    }
-
-    // account for parallax
-    return mIsCard
-        ? (int) mPhotoContainerView.getTranslationY() + mPhotoView.getHeight() - mScrollY
-        : mPhotoView.getHeight() - mScrollY;
   }
 
 }

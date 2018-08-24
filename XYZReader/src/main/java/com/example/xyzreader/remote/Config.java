@@ -12,6 +12,8 @@ public class Config {
     static {
         URL url = null;
         try {
+            // Someone in class created this so we can use it instead of slow large file
+            // https://s3-us-west-2.amazonaws.com/44d827ed-8529-42b0-98fb-eb9d2afd6d12/data/xyz-reader.json
             url = new URL("https://go.udacity.com/xyz-reader-json" );
         } catch (MalformedURLException ignored) {
             // TODO: throw a real error

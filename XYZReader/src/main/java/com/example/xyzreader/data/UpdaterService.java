@@ -72,7 +72,6 @@ public class UpdaterService extends IntentService {
                 // (([^\r\n])  not \r\n
                 // \r\n        followed by \r\n
                 // (?=[^\r\n]) lookahead for not \r\n
-
                 values.put(ItemsContract.Items.BODY, object.getString("body" )
                     .replaceAll("([^\r\n])\r\n(?=[^\r\n])", "$1 "));
                 values.put(ItemsContract.Items.THUMB_URL, object.getString("thumb" ));

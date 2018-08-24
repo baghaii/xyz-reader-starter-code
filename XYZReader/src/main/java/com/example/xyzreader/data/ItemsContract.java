@@ -30,8 +30,7 @@ public class ItemsContract {
 	public static class Items implements ItemsColumns {
 		public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.com.example.xyzreader.items";
 		public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.item/vnd.com.example.xyzreader.items";
-
-        public static final String DEFAULT_SORT = PUBLISHED_DATE + " DESC";
+		public static final String DEFAULT_SORT = PUBLISHED_DATE + " DESC";
 
 		/** Matches: /items/ */
 		public static Uri buildDirUri() {
