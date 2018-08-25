@@ -9,7 +9,7 @@
 
         <!--suppress AndroidLintContentDescription
         https://stackoverflow.com/questions/17747879/how-to-auto-center-crop-imageview-android-->
-        <com.example.xyzreader.ui.DynamicHeightNetworkImageView
+        <ImageView
             android:id="@+id/thumbnail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"

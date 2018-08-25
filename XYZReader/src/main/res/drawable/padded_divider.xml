@@ -1,5 +1,5 @@
 <inset xmlns:android="http://schemas.android.com/apk/res/android"
-    android:insetRight="112dp">
+    android:insetRight="@dimen/detail_inner_horiz_margin">
     <shape>
         <solid android:color="#1E000000" />
         <size android:width="1dp" android:height="1dp" />

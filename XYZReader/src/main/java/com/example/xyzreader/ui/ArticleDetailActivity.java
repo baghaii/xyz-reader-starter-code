@@ -116,7 +116,7 @@ public class ArticleDetailActivity extends AppCompatActivity
         if (mStartId > 0) {
 
             mCursor.moveToFirst();
-            
+
             // TODO: optimize
             while (!mCursor.isAfterLast()) {
                 if (mCursor.getLong(ArticleLoader.Query._ID) == mStartId) {

@@ -18,7 +18,7 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:clipToPadding="false"
-      android:paddingBottom="28dp"
+      android:paddingBottom="@dimen/list_recycler_padding_bottom"
       android:paddingLeft="@dimen/list_side_margin"
       android:paddingRight="@dimen/list_side_margin"
       android:paddingTop="@dimen/action_bar_height"
@@ -31,8 +31,6 @@
     android:layout_width="match_parent"
     android:layout_height="@dimen/action_bar_height"
     android:layout_gravity="top"
-    android:layout_marginLeft="@dimen/list_toolbar_side_margin"
-    android:layout_marginRight="@dimen/list_toolbar_side_margin"
     android:background="@color/theme_primary"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
