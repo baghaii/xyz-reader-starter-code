@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
@@ -18,6 +19,7 @@ import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,13 +52,13 @@ public class ArticleDetailFragment extends Fragment implements
   private Cursor mCursor;
   private long mItemId;
   private View mRootView;
+  private CollapsingToolbarLayout mCollapsingToolbarLayout;
   private Toolbar mToolbar;
   private int mMutedColor = 0xFF333333;
   private ColorDrawable mStatusBarColorDrawable;
   private FloatingActionButton mFab;
 
   private int mTopInset;
-  private View mPhotoContainerView;
   private ImageView mPhotoView;
   private int mScrollY;
   private boolean mIsCard = false;
@@ -113,11 +115,12 @@ public class ArticleDetailFragment extends Fragment implements
   }
 
   @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+  public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
 
     mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
     mRootView.setVisibility(View.INVISIBLE);
+    mCollapsingToolbarLayout = mRootView.findViewById(R.id.collapsing_toolbar);
     mToolbar = mRootView.findViewById(R.id.toolbar);
     mPhotoView = mRootView.findViewById(R.id.photo);
     mFab = mRootView.findViewById(R.id.share_fab);
@@ -126,10 +129,10 @@ public class ArticleDetailFragment extends Fragment implements
 
     mRootView.findViewById(R.id.share_fab);
 
-    mPhotoContainerView = mRootView.findViewById(R.id.photo_container);
-
     return mRootView;
   }
+
+
 
   private void updateStatusBar() {
     int color = 0;
@@ -142,6 +145,7 @@ public class ArticleDetailFragment extends Fragment implements
           (int) (Color.green(mMutedColor) * 0.9),
           (int) (Color.blue(mMutedColor) * 0.9));
     }
+
     mStatusBarColorDrawable.setColor(color);
   }
 
@@ -193,6 +197,13 @@ public class ArticleDetailFragment extends Fragment implements
 
       author = mCursor.getString(ArticleLoader.Query.AUTHOR);
 
+      DisplayMetrics displayMetrics = new DisplayMetrics();
+      getActivityCast().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+
+      if (displayMetrics.widthPixels >= 600) {
+        mToolbar.setTitle(title + " by " + author);
+      }
+
       Date publishedDate = parsePublishedDate();
       if (!publishedDate.before(START_OF_EPOCH.getTime())) {
         bylineView.setText(Html.fromHtml(
@@ -208,7 +219,7 @@ public class ArticleDetailFragment extends Fragment implements
         // If date is before 1902, just show the string
         bylineView.setText(Html.fromHtml(
             outputFormat.format(publishedDate) + " by <font color='#ffffff'>"
-                + mCursor.getString(ArticleLoader.Query.AUTHOR)
+                + author
                 + "</font>"));
 
       }
@@ -239,6 +250,12 @@ public class ArticleDetailFragment extends Fragment implements
                 mPhotoView.setImageBitmap(imageContainer.getBitmap());
                 mRootView.findViewById(R.id.meta_bar)
                     .setBackgroundColor(mMutedColor);
+                mCollapsingToolbarLayout.setContentScrimColor(mMutedColor);
+               /* TODO fix
+                updateStatusBar();
+                mCollapsingToolbarLayout.setStatusBarScrimColor(
+                    mStatusBarColorDrawable.getColor()
+                ); */
               }
             }
 
