@@ -1,5 +1,6 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
                                                  xmlns:app="http://schemas.android.com/apk/res-auto"
+                                                 android:id="@+id/fragment_layout"
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true"
@@ -62,16 +63,16 @@
     >
 
     <FrameLayout
+      android:id="@+id/story_container"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="@color/midgray">
-
 
       <com.example.xyzreader.ui.MaxWidthLinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:background="#fff"
+        android:background="@color/white"
         android:elevation="2dp"
         android:maxWidth="@dimen/detail_card_max_width"
         android:orientation="vertical"
@@ -83,7 +84,7 @@
           android:layout_height="wrap_content"
           android:layout_gravity="bottom"
           android:layout_marginBottom="@dimen/detail_metabar_vert_padding"
-          android:background="#333"
+          android:background="@color/darkgray"
           android:orientation="vertical"
           android:paddingBottom="@dimen/detail_metabar_vert_padding"
           android:paddingLeft="@dimen/detail_inner_horiz_margin"
@@ -97,7 +98,7 @@
             android:layout_height="wrap_content"
             android:lineSpacingMultiplier="0.9"
             android:paddingBottom="@dimen/detail_metabar_title_bottom_padding"
-            android:textColor="#fff"
+            android:textColor="@color/white"
             android:textSize="@dimen/detail_title_text_size"
             android:textStyle="bold"/>
 
@@ -124,8 +125,8 @@
 
   <android.support.design.widget.FloatingActionButton
     android:id="@+id/share_fab"
-    android:layout_width="56dp"
-    android:layout_height="56dp"
+    android:layout_width="@dimen/fab_width"
+    android:layout_height="@dimen/fab_width"
     android:layout_marginEnd="@dimen/fab_margin"
     android:layout_marginTop="@dimen/fab_margin"
     android:backgroundTint="@color/theme_accent"

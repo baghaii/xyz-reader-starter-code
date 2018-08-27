@@ -1,12 +1,15 @@
 package com.example.xyzreader.ui;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
@@ -19,7 +22,6 @@ import android.text.Html;
 import android.text.format.DateUtils;
 import android.text.method.LinkMovementMethod;
 import android.text.method.ScrollingMovementMethod;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -52,6 +54,9 @@ public class ArticleDetailFragment extends Fragment implements
   private Cursor mCursor;
   private long mItemId;
   private View mRootView;
+  private View mContainer;
+  private AppBarLayout mAppBarLayout;
+  private GradientDrawable mGradientDrawable;
   private CollapsingToolbarLayout mCollapsingToolbarLayout;
   private Toolbar mToolbar;
   private int mMutedColor = 0xFF333333;
@@ -62,6 +67,7 @@ public class ArticleDetailFragment extends Fragment implements
   private ImageView mPhotoView;
   private int mScrollY;
   private boolean mIsCard = false;
+  private boolean mAppBarExpanded = true;
   private int mStatusBarFullOpacityBottom;
 
   private SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.sss");
@@ -118,16 +124,38 @@ public class ArticleDetailFragment extends Fragment implements
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
 
+
     mRootView = inflater.inflate(R.layout.fragment_article_detail, container, false);
     mRootView.setVisibility(View.INVISIBLE);
+    mContainer = mRootView.findViewById(R.id.story_container);
+    mAppBarLayout = mRootView.findViewById(R.id.appbar);
     mCollapsingToolbarLayout = mRootView.findViewById(R.id.collapsing_toolbar);
     mToolbar = mRootView.findViewById(R.id.toolbar);
     mPhotoView = mRootView.findViewById(R.id.photo);
     mFab = mRootView.findViewById(R.id.share_fab);
-
     mStatusBarColorDrawable = new ColorDrawable(0);
-
     mRootView.findViewById(R.id.share_fab);
+    mGradientDrawable = new GradientDrawable();
+    mGradientDrawable.setOrientation(GradientDrawable.Orientation.TOP_BOTTOM);
+
+    // How can I change the background on image collapsed?
+    // https://blog.iamsuleiman.com/toolbar-animation-with-android-design-support-library/
+
+    mAppBarLayout.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
+      @Override
+      public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+        float mostlyCollapsedOffset = 0.75f * (getResources().getDimension(R.dimen.detail_photo_height)
+            - getResources().getDimension(R.dimen.action_bar_height));
+
+        if (Math.abs(verticalOffset) > mostlyCollapsedOffset) {
+          mAppBarExpanded = false;
+          mContainer.setBackground(mGradientDrawable);
+        } else {
+          mAppBarExpanded = true;
+          mContainer.setBackgroundColor(getResources().getColor(R.color.midgray));
+        }
+      }
+    });
 
     return mRootView;
   }
@@ -197,10 +225,13 @@ public class ArticleDetailFragment extends Fragment implements
 
       author = mCursor.getString(ArticleLoader.Query.AUTHOR);
 
-      DisplayMetrics displayMetrics = new DisplayMetrics();
-      getActivityCast().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+      Configuration config = getResources().getConfiguration();
+      int sw = config.smallestScreenWidthDp;
 
-      if (displayMetrics.widthPixels >= 600) {
+      //If this a tablet, make a longer title.
+      //https://stackoverflow.com/questions/26521115/how-to-know-smallest-width-sw-of-an-android-device#36304657
+
+      if (sw >= 600) {
         mToolbar.setTitle(title + " by " + author);
       }
 
@@ -247,15 +278,14 @@ public class ArticleDetailFragment extends Fragment implements
               if (bitmap != null) {
                 Palette p = Palette.generate(bitmap, 12);
                 mMutedColor = p.getDarkMutedColor(0xFF333333);
-                mPhotoView.setImageBitmap(imageContainer.getBitmap());
+                mPhotoView.setImageBitmap(bitmap);
                 mRootView.findViewById(R.id.meta_bar)
                     .setBackgroundColor(mMutedColor);
                 mCollapsingToolbarLayout.setContentScrimColor(mMutedColor);
-               /* TODO fix
-                updateStatusBar();
-                mCollapsingToolbarLayout.setStatusBarScrimColor(
-                    mStatusBarColorDrawable.getColor()
-                ); */
+                mGradientDrawable.setColors(new int[]{
+                    getResources().getColor(R.color.midgray),
+                    mMutedColor
+                });
               }
             }
 

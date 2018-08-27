@@ -193,7 +193,6 @@ public class ArticleListActivity extends AppCompatActivity implements
             //How do we find the width of our screen?
             //https://stackoverflow.com/questions/4743116/get-screen-width-and-height#4744499
 
-            //TODO how do we scale this image?
             DisplayMetrics displayMetrics = new DisplayMetrics();
             getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
             int width = displayMetrics.widthPixels;

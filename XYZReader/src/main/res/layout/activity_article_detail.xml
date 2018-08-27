@@ -14,14 +14,15 @@
         android:id="@+id/up_container"
         android:background="@android:color/transparent"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/action_bar_height">
+        android:layout_height="@dimen/action_bar_height"
+        >
 
      <ImageButton
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
             android:id="@+id/action_up"
             android:layout_gravity="center_vertical"
             android:layout_width="@dimen/back_arrow_width"
-            android:layout_height="@dimen/action_bar_height"
+            android:layout_height="match_parent"
             android:background="?selectableItemBackgroundBorderless"
             android:contentDescription="@string/up"
             android:src="@drawable/ic_arrow_back" />
